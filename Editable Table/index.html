@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse:collapse;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Table </h1>
+    <div id="table"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+  
+  function EditableTable() {
+  const [inputValues, setInputValues] = React.useState({});
+
+  const handleInputChange = async(e, key) => {
+    try{
+      const { value } = e.target;
+      console.log(value)
+     
+      const response  = await axios.post('https://example.com/api/post', { [key]: value }) 
+
+      setInputValues({ ...inputValues, [key]: value });
+
+    }
+    catch{
+      console.log('something went wrong')
+    }
+  };
+
+  // Array of row titles
+  const rowTitles = [
+      'Onboarding Call',
+      'Google Search Console Access',
+      'Google Analytics Access',
+      'Website Access',
+      'Technical Audit',
+      'Anchor Text And Semantic Analysis',
+      'Competitor Analysis',
+      'Anchor Text/ URL Mapping',
+      'Google Data Studio Report + Local Reporting Suite',
+      'Site Level Optimization',
+      'On Page Optimization',
+      'Content Creation',
+      'Content PubliShing',
+      'Premium Press Release',
+      'Authority Niche Placements',
+      'Review Management',
+      'Index Links',
+      'Video Recap'
+  ];
+
+    // Generate table rows dynamically using map
+    const tableRows = rowTitles.map((title) => {
+        const inputKey = Math.random().toString(); // Generate a random key
+        return React.createElement('tr', { key: inputKey},
+            React.createElement('td', null, title),
+            React.createElement('td', null, React.createElement('input', { type: 'text', onChange: (e) => handleInputChange(e, inputKey) })),
+            React.createElement('td', null, React.createElement('input', { type: 'text', onChange: (e) => handleInputChange(e, inputKey) })),
+            React.createElement('td', null, React.createElement('input', { type: 'text', onChange: (e) => handleInputChange(e, inputKey) })),
+            React.createElement('td', null, React.createElement('input', { type: 'text', onChange: (e) => handleInputChange(e, inputKey) })),
+            React.createElement('td', null, React.createElement('input', { type: 'text', onChange: (e) => handleInputChange(e, inputKey) }))
+        );
+    });
+
+  // Table body
+  const tableBody = React.createElement('tbody', null, tableRows);
+
+  // Table header
+  const tableHeader = React.createElement('thead', null,
+      React.createElement('tr', null,
+          React.createElement('th', null, 'Month 1')
+      )
+  );
+
+  // Table element
+  const tableElement = React.createElement('table', null, tableHeader, tableBody);
+
+  // Return the table element
+  return (
+      React.createElement('div', null, tableElement )
+  );
+}
+
+ReactDOM.render(React.createElement(EditableTable), document.getElementById('table'));
+
+</script>
+</body>
+
+</html>

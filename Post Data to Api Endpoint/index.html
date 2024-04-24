@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Data to API Endpoint with React</title>
+    <style>
+        body {
+            margin: 5%;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #ff4800;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .response-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;  
+            margin-top: 11%;
+            font-size: 38px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1 >Post Data to API Endpoint</h1>
+    <div id="root" class="container"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        function App() {
+            const [msg, setMsg] = React.useState('');
+
+            const postData = async () => {
+                const phoneNumber = "1234567890"; 
+
+                try {
+                    const response = await axios.post('https://chimpu.xyz/api/post.php', { phonenumber: phoneNumber });
+
+                    setMsg(response.data.msg);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+
+            const button = React.createElement('button', { className: 'button', onClick: postData }, 'Post Data');
+            const responseText = msg && React.createElement('p', { className: 'response-text' }, msg);
+
+            return (
+                React.createElement('div', null,
+                    button,
+                    responseText
+                )
+            );
+        }
+
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
+    </script>
+</body>
+</html>
