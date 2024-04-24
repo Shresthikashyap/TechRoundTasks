@@ -44,8 +44,14 @@
 
                 try {
                     const response = await axios.post('https://chimpu.xyz/api/post.php', { phonenumber: phoneNumber });
-
-                    setMsg(response.data.msg);
+                    console.log(response)
+                    
+                    let headersString = '';
+                    for (const [key, value] of Object.entries(response.headers)) {
+                        headersString += `${key}: ${value}\n`;
+                    }
+    
+                    setMsg(headersString);
                 } catch (error) {
                     console.error('Error:', error);
                 }
